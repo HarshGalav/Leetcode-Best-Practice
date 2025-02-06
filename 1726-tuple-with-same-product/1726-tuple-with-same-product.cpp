@@ -2,6 +2,7 @@ class Solution {
 public:
     int tupleSameProduct(vector<int>& nums) {
    int cnt=0;
+   sort(nums.begin(),nums.end());
    int n=nums.size();
         for(int i=0;i<n;i++){
             for(int j=n-1;j>i;j--){
