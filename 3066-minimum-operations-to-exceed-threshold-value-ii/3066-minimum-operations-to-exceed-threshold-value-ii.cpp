@@ -1,15 +1,13 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int k) {
-        priority_queue<int,vector<int>,greater<int>>mh;
-        for(auto i:nums){
-            mh.push(i);
-        }
+        priority_queue<long long,vector<long long>,greater<long long>>mh(nums.begin(),nums.end());
+        
         int n=0;
         while(mh.top()<k){
-            int n1=mh.top();
+            long long n1=mh.top();
             mh.pop();
-            int n2=mh.top();
+            long long n2=mh.top();
             mh.pop();
             mh.push((min(n1,n2)*2)+max(n1,n2));
             n++;
