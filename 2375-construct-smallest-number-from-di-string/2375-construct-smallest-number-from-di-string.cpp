@@ -1,23 +1,20 @@
 class Solution {
 public:
-    bool match(string &num,string &pattern){
-        for(int i=0;i<pattern.length();i++){
-            if((pattern[i]=='I' && num[i]>num[i+1])|| (pattern[i]=='D' && num[i]<num[i+1])){
-                return false;
+    string smallestNumber(string pattern) {
+        string ans="";
+        int count=1;
+        int n=pattern.length();
+        stack<char>st;
+        for(int i=0;i<=n;i++){
+            st.push(count+'0');
+            count++;
+            if(i==n || pattern[i]=='I'){
+                while(!st.empty()){
+                    ans+=st.top();
+                    st.pop();
+                }
             }
         }
-        return true;
+        return ans;
     }
-    string smallestNumber(string pattern) {
-        int n=pattern.length();
-        string num="";
-        for(int i=1;i<=n+1;i++){
-            num.push_back(i+'0');
-        }
-        while(!match(num,pattern)){
-            next_permutation(num.begin(),num.end());
-        }
-         return num;
-    }
-   
 };
