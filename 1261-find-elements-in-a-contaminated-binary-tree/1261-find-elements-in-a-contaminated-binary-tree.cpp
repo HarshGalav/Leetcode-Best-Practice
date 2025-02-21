@@ -13,13 +13,23 @@ class FindElements {
 public:
 unordered_set<int>mp;
 void f(TreeNode* root,int value){
-    if(root==NULL){
-        return;
-    }
+    queue<TreeNode*>q;
+    q.push(root);
     root->val=value;
-    mp.insert(value);
-    f(root->left,2*value+1);
-    f(root->right,2*value+2);
+    
+    while(!q.empty()){
+        TreeNode* temp=q.front();
+        mp.insert(temp->val);
+        q.pop();
+        if(temp->left){
+            q.push(temp->left);
+            temp->left->val=(2*temp->val)+1;
+        }
+        if(temp->right){
+            q.push(temp->right);
+            temp->right->val=(2*temp->val)+2;
+        }
+    }
 
 }
     FindElements(TreeNode* root) {
@@ -27,7 +37,7 @@ void f(TreeNode* root,int value){
     }
     
     bool find(int target) {
-        if(mp.find(target)!=mp.end()){
+        if(mp.count(target)){
             return true;
         }
         return false;
