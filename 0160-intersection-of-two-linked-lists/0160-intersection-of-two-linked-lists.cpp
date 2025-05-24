@@ -9,41 +9,15 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        int n=0;
-        int m=0;
+        if(headA ==NULL || headB==NULL){
+            return NULL;
+        }
         ListNode *a=headA;
         ListNode *b=headB;
-        while(a!=NULL){
-            a=a->next;
-            n++;
+        while(a!=b){
+            a= a==NULL?headB:a->next;
+            b= b==NULL?headA:b->next;
         }
-        while(b!=NULL){
-            b=b->next;
-            m++;
-        }
-        a=headA;
-        b=headB;
-        if(n>m){
-            int j=n-m;
-            for(int i=0;i<j;i++){
-                a=a->next;
-            }
-        }
-        else if(m>n){
-            int j=m-n;
-            for(int i=0;i<j;i++){
-                b=b->next;
-            }
-        }
-        // a=headA;
-        // b=headB;
-        while(a!=NULL){
-            if(a==b){
-                return a;
-            }
-            a=a->next;
-            b=b->next;
-        }
-        return NULL;
+        return a;
     }
 };
