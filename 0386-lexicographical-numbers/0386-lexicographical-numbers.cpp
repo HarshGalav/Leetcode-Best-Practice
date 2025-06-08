@@ -1,16 +1,19 @@
 class Solution {
 public:
+    void dfs(int cur, int n, vector<int>& ans) {
+        if (cur > n) return;
+        ans.push_back(cur);
+        for (int i = 0; i <= 9; ++i) {
+            if (cur * 10 + i > n) break;
+            dfs(cur * 10 + i, n, ans);
+        }
+    }
+
     vector<int> lexicalOrder(int n) {
-        vector<int>ans;
-        int x=min(9,n);
-        for(int i=1;i<=x;i++){
-            ans.push_back(i);
-            if((i+9*i)<=n){
-                for(int j=i+9*i;j<=min(9+i+(9*i),n);j++){
-                    ans.push_back(j);
-                }
-            }
-            
+        vector<int> ans;
+        for (int i = 1; i <= 9; ++i) {
+            if (i > n) break;
+            dfs(i, n, ans);
         }
         return ans;
     }
