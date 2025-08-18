@@ -1,42 +1,40 @@
 class LRUCache {
 public:
-    list<int>dll;
-    map<int,pair<list<int>::iterator,int>>mp;
-    int n;
-
+int cap;
+list<pair<int,int>>dll;
+unordered_map<int,list<pair<int,int>>::iterator>mp;
     LRUCache(int capacity) {
-        n=capacity;
+        cap=capacity;
     }
-
-    void makerecentlyused(int key){
-        dll.erase(mp[key].first);
-        dll.push_front(key);
-        mp[key].first=dll.begin();
-    }
+    
     
     int get(int key) {
         if(mp.find(key)==mp.end()){
             return -1;
         }
-        makerecentlyused(key);
-        return mp[key].second;
+        auto it=mp[key];
+        int val=it->second;
+        dll.erase(it);
+        dll.push_front({key,val});
+        mp[key]=dll.begin();
+        return val;
     }
     
     void put(int key, int value) {
         if(mp.find(key)!=mp.end()){
-            mp[key].second=value;
-            makerecentlyused(key);
+            auto it=mp[key];
+            dll.erase(it);
+            dll.push_front({key,value});
+            mp[key]=dll.begin();
+            return;
         }
-        else{
-            dll.push_front(key);
-            mp[key]={dll.begin(),value};
-            n--;
-        }
-        if(n < 0) {
-            mp.erase(dll.back());
+        if(dll.size()==cap){
+            auto it=dll.back();
+            mp.erase(it.first);
             dll.pop_back();
-            n++;
         }
+        dll.push_front({key,value});
+        mp[key]=dll.begin();
     }
 };
 
