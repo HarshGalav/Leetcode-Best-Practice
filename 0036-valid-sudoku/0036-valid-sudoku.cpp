@@ -1,24 +1,43 @@
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
-        unordered_set<char>rows[9];
-        unordered_set<char>cols[9];
-        unordered_set<char>boxes[9];
-        for(int r=0;r<9;r++){
-            for(int c=0;c<9;c++){
-                if(board[r][c] == '.'){
-                    continue;
+        int n=board.size();
+        unordered_map<int,unordered_set<int>>mp;
+        for(int i=0;i<n;i++){
+            unordered_set<char>s;
+            unordered_set<char>s1;
+            for(int j=0;j<n;j++){
+                if(board[i][j] != '.'){
+                    if(s.find(board[i][j])!=s.end()){
+                        return false;
+                    }
+                    else{
+                        s.insert(board[i][j]);
+                    }
                 }
-                char val= board[r][c];
-                int boxind= (r/3) *3 + (c/3);
-                if(rows[r].count(val) || cols[c].count(val) || boxes[boxind].count(val)){
-                    return false;
+
+                if(board[j][i] != '.'){
+                    if(s1.find(board[j][i])!=s1.end()){
+                        return false;
+                    }
+                    else{
+                        s1.insert(board[j][i]);
+                    }
                 }
-                rows[r].insert(val);
-                cols[c].insert(val);
-                boxes[boxind].insert(val);
+
+                if(board[i][j] != '.'){
+                    int boxid=(i/3) * 3 + j/3;
+                    if(mp[boxid].find(board[i][j])!= mp[boxid].end()){
+                        return false;
+                    }
+                    else{
+                        mp[boxid].insert(board[i][j]);
+                    }
+                }
+                
             }
         }
         return true;
+        
     }
 };
