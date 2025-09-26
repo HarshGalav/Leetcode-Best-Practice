@@ -3,22 +3,19 @@ public:
     int triangleNumber(vector<int>& nums) {
         sort(nums.begin(),nums.end());
         int n=nums.size();
-        int ans=0;
-        if(n<3){
-            return 0;
-        }
-        for(int k=2;k<n;k++){
-            int s=0,e=k-1;
-            while(s<e){
-                if(nums[s]+nums[e]>nums[k]){
-                    ans+= e-s;
-                    e--;
+        int count=0;
+        for(int k=n-1;k>=0;k--){
+            int i=0,j=k-1;
+            while(i<j){
+                if(nums[i]+nums[j] > nums[k]){
+                    count+=j-i;
+                    j--;
                 }
                 else{
-                    s++;
+                    i++;
                 }
             }
         }
-        return ans;
+        return count;
     }
 };
