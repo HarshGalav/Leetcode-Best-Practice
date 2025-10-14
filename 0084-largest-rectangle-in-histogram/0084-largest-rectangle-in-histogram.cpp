@@ -1,37 +1,48 @@
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
-        int n=heights.size();
-        vector<int>leftSmallest(n);
-        vector<int>rightSmallest(n);
-        stack<int>st;
-        for(int i=0;i<n;i++){
-            while(!st.empty() && heights[st.top()]>=heights[i]){
-                st.pop();
+        int x=heights.size();
+        vector<int>ll(heights.size());
+        vector<int>rl(heights.size());
+        vector<int>ans(heights.size());
+        
+        stack<int>str;
+        stack<int>stl;
+        for(int i=0;i<x;i++){
+            while(!stl.empty() && (heights[stl.top()] >= heights[i])){
+                stl.pop();
             }
-            if(st.empty()){
-                leftSmallest[i]=0;
+            if(stl.empty()){
+                ll[i]=0;
             }
-            else
-            leftSmallest[i]=st.top()+1;
-            st.push(i);
+            else{
+                ll[i]=stl.top()+1;
+               
+            }
+            
+            stl.push(i);
+            
         }
+        for(int i=x-1;i>=0;i--){
+            while(!str.empty() && (heights[str.top()] >= heights[i])){
+                str.pop();
+            }
+            if(str.empty()){
+                rl[i]=x-1;
+            }
+            else{
+                rl[i]=str.top()-1;
+                 
+            }
+           str.push(i);
 
-         while (!st.empty()) st.pop();
-
-        for (int i = n - 1; i >= 0; i--) {
-            while (!st.empty() && heights[st.top()] >= heights[i])
-                st.pop();
-            rightSmallest[i] = st.empty() ? n - 1 : st.top() - 1;
-            st.push(i);
+            
         }
-
-         int maxA = 0;
-        for (int i = 0; i < n; i++) {
-            maxA = max(maxA, heights[i] * (rightSmallest[i] - leftSmallest[i] + 1));
+        for(int i=0;i<x;i++){
+            ans[i]=(rl[i]-ll[i]+1)*heights[i];
         }
+        return *max_element(ans.begin(),ans.end());
 
-        return maxA;
 
     }
 };
